@@ -35,7 +35,7 @@ func Generate() (Key, error) {
 }
 
 func (e Customerrors) Error() string {
-	return e.Message + " Error Code: " + strconv.Itoa(e.Code)
+	return e.Message + " Error Code:" + strconv.Itoa(e.Code)
 }
 func GenerateWithIndex(mnemonic string, index uint32) (Key, error) {
 	if index > 10 {

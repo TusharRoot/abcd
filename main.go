@@ -19,10 +19,10 @@ type Customerrors struct {
 	Code    int
 }
 
-func Generate() (Key, error) {
+func Generatewithpassphrase(passphrase string) Key {
 	entropy, _ := bip39.NewEntropy(256)
 	mnemonic, _ := bip39.NewMnemonic(entropy)
-	seed := bip39.NewSeed(mnemonic, "")
+	seed := bip39.NewSeed(mnemonic, passphrase)
 	fmt.Println("Your Mnemonic:->", mnemonic)
 	masterkey, err := bip32.NewMasterKey(seed)
 	Error(err)
@@ -31,7 +31,10 @@ func Generate() (Key, error) {
 	childpub := childkey.PublicKey()
 	_, pubaddress := Pubkeyhash(childpub.Key)
 	//Return ChildPublic Address and Child Public Key
-	return Key{childkey, pubaddress}, nil
+	return Key{childkey, pubaddress}
+}
+func Generate() Key {
+	return Generatewithpassphrase("")
 }
 
 func (e Customerrors) Error() string {
@@ -84,6 +87,6 @@ func Checksum(payload []byte) []byte {
 
 func Error(e error) {
 	if e != nil {
-		fmt.Println(e)
+		panic(e)
 	}
 }

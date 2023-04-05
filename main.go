@@ -10,16 +10,16 @@ import (
 	"golang.org/x/crypto/ripemd160"
 )
 
-type key struct {
+type Key struct {
 	childkey   *bip32.Key
 	pubaddress string
 }
-type customerrors struct {
+type Customerrors struct {
 	Message string
 	Code    int
 }
 
-func Generate() (key, error) {
+func Generate() (Key, error) {
 	entropy, _ := bip39.NewEntropy(256)
 	mnemonic, _ := bip39.NewMnemonic(entropy)
 	seed := bip39.NewSeed(mnemonic, "")
@@ -31,15 +31,15 @@ func Generate() (key, error) {
 	childpub := childkey.PublicKey()
 	_, pubaddress := Pubkeyhash(childpub.Key)
 	//Return ChildPublic Address and Child Public Key
-	return key{childkey, pubaddress}, nil
+	return Key{childkey, pubaddress}, nil
 }
 
-func (e customerrors) Error() string {
+func (e Customerrors) Error() string {
 	return e.Message + " Error Code: " + strconv.Itoa(e.Code)
 }
-func GenerateWithIndex(mnemonic string, index uint32) (key, error) {
+func GenerateWithIndex(mnemonic string, index uint32) (Key, error) {
 	if index > 10 {
-		return key{}, customerrors{"Index Must be less than 10", 10}
+		return Key{}, Customerrors{"Index Must be less than 10", 10}
 	} else {
 		fmt.Println("Your Mnemonic:->", mnemonic)
 		seed := bip39.NewSeed(mnemonic, "")
@@ -48,16 +48,16 @@ func GenerateWithIndex(mnemonic string, index uint32) (key, error) {
 		return Generatefromkey(masterkey, index)
 	}
 }
-func Generatefromkey(masterkey *bip32.Key, index uint32) (key, error) {
+func Generatefromkey(masterkey *bip32.Key, index uint32) (Key, error) {
 	if index > 10 {
-		return key{}, customerrors{"Index Must be less than 10", 10}
+		return Key{}, Customerrors{"Index Must be less than 10", 10}
 	} else {
 		childkey, err := masterkey.NewChildKey(index)
 		Error(err)
 		childpub := childkey.PublicKey()
 		_, pubaddress := Pubkeyhash(childpub.Key)
 		//Return ChildPublic Address and Child Public Key
-		return key{childkey, pubaddress}, nil
+		return Key{childkey, pubaddress}, nil
 	}
 }
 func Pubkeyhash(key []byte) (string, string) {

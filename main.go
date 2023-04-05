@@ -1,4 +1,4 @@
-package main
+package abcd
 
 import (
 	"crypto/sha256"

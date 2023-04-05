@@ -84,6 +84,6 @@ func Checksum(payload []byte) []byte {
 
 func Error(e error) {
 	if e != nil {
-		panic(e)
+		fmt.Println(e)
 	}
 }

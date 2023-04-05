@@ -68,7 +68,7 @@ func Pubkeyhash(key []byte) (string, string) {
 	hashBytes := hasher.Sum(nil)
 	hashString := fmt.Sprintf("%x", hashBytes)
 	versionedHash := append([]byte{versionByte}, hashBytes...)
-	return hashString, pubkeyaddress(versionedHash)
+	return hashString, Pubkeyaddress(versionedHash)
 }
 func Pubkeyaddress(versionedHash []byte) string {
 	checksum := Checksum(versionedHash)

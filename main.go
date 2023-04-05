@@ -2,6 +2,7 @@ package abcd
 
 import (
 	"crypto/sha256"
+	"encoding/hex"
 	"fmt"
 	"strconv"
 
@@ -84,7 +85,12 @@ func Checksum(payload []byte) []byte {
 	secondHash := sha256.Sum256(firstHash[:])
 	return secondHash[:4]
 }
-
+func EncodeToString(key []byte) string {
+	return hex.EncodeToString(key)
+}
+func EncodeToByte(s string) []byte {
+	return []byte(s)
+}
 func Error(e error) {
 	if e != nil {
 		panic(e)

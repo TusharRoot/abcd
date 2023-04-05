@@ -1,4 +1,4 @@
-package abcd
+package main
 
 import (
 	"crypto/sha256"
@@ -11,8 +11,8 @@ import (
 )
 
 type Key struct {
-	childkey   *bip32.Key
-	pubaddress string
+	Childkey   *bip32.Key
+	Pubaddress string
 }
 type Customerrors struct {
 	Message string

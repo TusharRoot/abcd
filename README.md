@@ -38,10 +38,10 @@ To generate a key from a master key and an index, call the Generatefromkey funct
 
 Note : In the event that the index entered is greater than 10, an error message shall be returned.
 Example:
-``
+```
     go
     key, err := Generatefromkey(masterkey, 0)
-``
+```
 
 <h3>Other Functions</h3>
 

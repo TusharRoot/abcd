@@ -45,9 +45,9 @@ key, err := Generatefromkey(masterkey, 0)
 
 The program also includes the following additional functions:
 
-    <h4>EncodeToString:</h4> to convert a byte-formatted key to a string.
-    <h4>EncodeToByte:</h4> to convert a string-formatted key to a byte.
-    <h4>Error:</h4> to handle errors throughout the program.
+    EncodeToString: to convert a byte-formatted key to a string.
+    EncodeToByte: to convert a string-formatted key to a byte.
+    Error: to handle errors throughout the program.
 
 <h3>Public key Hash Function</h3>
 

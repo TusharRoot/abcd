@@ -19,9 +19,9 @@ To generate a key with a passphrase, call the Generatewithpassphrase function, p
 Note: if you pass "" empty string than it will create seed without passphrase.
 
 Example:
-
+```go
 key := Generatewithpassphrase("passphrase")
-
+```
 <h3>Generate a Key from a Mnemonic and Index</h3>
 
 To generate a key from a mnemonic and an index, call the GenerateWithIndex function, passing the mnemonic and index as parameters. The function returns a Key structure containing the child key and public address.
@@ -29,9 +29,9 @@ To generate a key from a mnemonic and an index, call the GenerateWithIndex funct
 Note : In the event that the index entered is greater than 10, an error message shall be returned.
 
 Example:
-
+```go
 key, err := GenerateWithIndex("mnemonic", 0)
-
+```
 <h3>Generate a Key from a Master Key and Index</h3>
 
 To generate a key from a master key and an index, call the Generatefromkey function, passing the master key and index as parameters. The function returns a Key structure containing the child key and public address.

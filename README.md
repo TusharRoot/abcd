@@ -1,4 +1,4 @@
-Tsunagu Key Generator
+#Tsunagu Key Generator
 
 This program generates Tsunagu keys using the BIP32, BIP39 standards. It allows you to generate a master key from a mnemonic, generate child keys from a master key, and generate public addresses from a public key.
 

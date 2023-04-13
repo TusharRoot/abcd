@@ -36,7 +36,7 @@ func Generatewithpassphrase(passphrase string) (Key, string) {
 	childkey, err := masterkey.NewChildKey(0)
 	Error(err)
 	childpub := childkey.PublicKey()
-	_, pubaddress := pubkeyhash(childpub.Key)
+	_, pubaddress := Pubkeyhash(childpub.Key)
 	//Return a private key structure and its corresponding public address
 	return Key{childkey, pubaddress}, mnemonic
 }
@@ -74,7 +74,7 @@ func Generatefromkey(masterkey *bip32.Key, index uint32) (Key, error) {
 		childkey, err := masterkey.NewChildKey(index)
 		Error(err)
 		childpub := childkey.PublicKey()
-		_, pubaddress := pubkeyhash(childpub.Key)
+		_, pubaddress := Pubkeyhash(childpub.Key)
 		//Return ChildPublic Address and Child Public Key
 		return Key{childkey, pubaddress}, nil
 	}

@@ -27,11 +27,10 @@ type Customerrors struct {
 This function generates a cryptographic key that can be returned to the user with or without a passphrase.
 if you pass "" empty string than it will create seed without passphrase.
 */
-func Generatewithpassphrase(passphrase string) Key {
+func Generatewithpassphrase(passphrase string) (Key, string) {
 	entropy, _ := bip39.NewEntropy(256)
 	mnemonic, _ := bip39.NewMnemonic(entropy)
 	seed := bip39.NewSeed(mnemonic, passphrase)
-	fmt.Println("Your Mnemonic:->", mnemonic)
 	masterkey, err := bip32.NewMasterKey(seed)
 	Error(err)
 	childkey, err := masterkey.NewChildKey(0)
@@ -39,7 +38,7 @@ func Generatewithpassphrase(passphrase string) Key {
 	childpub := childkey.PublicKey()
 	_, pubaddress := pubkeyhash(childpub.Key)
 	//Return a private key structure and its corresponding public address
-	return Key{childkey, pubaddress}
+	return Key{childkey, pubaddress}, mnemonic
 }
 
 /* This function is used to implement customized errors and return error messages and codes. */
@@ -47,14 +46,17 @@ func (e Customerrors) Error() string {
 	return e.Message + " Error Code:" + strconv.Itoa(e.Code)
 }
 
-/* The purpose of this function is to generate a key using a mnemonic.
-In the event that the index entered is greater than 10, an error message shall be returned. */
-func GenerateWithIndex(mnemonic string, index uint32) (Key, error) {
+/*
+	The purpose of this function is to generate a key using a mnemonic.
+
+In the event that the index entered is greater than 10, an error message shall be returned.
+*/
+func GenerateWithIndex(mnemonic string, index uint32, passphrase string) (Key, error) {
 	if index > 10 {
 		return Key{}, Customerrors{"Index Must be less than 10", 10}
 	} else {
 		fmt.Println("Your Mnemonic:->", mnemonic)
-		seed := bip39.NewSeed(mnemonic, "")
+		seed := bip39.NewSeed(mnemonic, passphrase)
 		masterkey, err := bip32.NewMasterKey(seed)
 		Error(err)
 		return Generatefromkey(masterkey, index)
@@ -62,7 +64,7 @@ func GenerateWithIndex(mnemonic string, index uint32) (Key, error) {
 }
 
 /*
-This function creates a key from another key using the bip32.Key structure. 
+This function creates a key from another key using the bip32.Key structure.
 If the index is greater than 10, an error message will be returned.
 */
 func Generatefromkey(masterkey *bip32.Key, index uint32) (Key, error) {
@@ -78,8 +80,11 @@ func Generatefromkey(masterkey *bip32.Key, index uint32) (Key, error) {
 	}
 }
 
-/* This Function generate Publickeyhash which is used to generate publicaddress.
-and return publickeyhash and publicaddress.*/
+/*
+	This Function generate Publickeyhash which is used to generate publicaddress.
+
+and return publickeyhash and publicaddress.
+*/
 func pubkeyhash(key []byte) (string, string) {
 	versionByte := byte(0x00)
 	shahash := sha256.Sum256(key)

@@ -85,7 +85,7 @@ func Generatefromkey(masterkey *bip32.Key, index uint32) (Key, error) {
 
 and return publickeyhash and publicaddress.
 */
-func pubkeyhash(key []byte) (string, string) {
+func Pubkeyhash(key []byte) (string, string) {
 	versionByte := byte(0x00)
 	shahash := sha256.Sum256(key)
 	hasher := ripemd160.New()

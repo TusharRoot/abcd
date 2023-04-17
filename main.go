@@ -77,7 +77,7 @@ func Generatefromkey(masterkey *bip32.Key, index uint32) (Key, error) {
 		childpub := childkey.PublicKey()
 		_, pubaddress := Pubkeyhash(childpub.Key)
 		//Return ChildPublic Address and Child Public Key
-		return Key{childkey, pubaddress}, nil
+		return Key{childkey, childpub, pubaddress}, nil
 	}
 }
 

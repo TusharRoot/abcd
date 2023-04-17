@@ -31,6 +31,10 @@ if you pass "" empty string than it will create seed without passphrase.
 func Generatewithpassphrase(passphrase string) (Key, string) {
 	entropy, _ := bip39.NewEntropy(256)
 	mnemonic, _ := bip39.NewMnemonic(entropy)
+	return Generatefrommnemonic(mnemonic, passphrase)
+}
+
+func Generatefrommnemonic(mnemonic string, passphrase string) (Key, string) {
 	seed := bip39.NewSeed(mnemonic, passphrase)
 	masterkey, err := bip32.NewMasterKey(seed)
 	Error(err)

@@ -13,8 +13,9 @@ import (
 
 /* This structure will be returned when the key pair is generated. */
 type Key struct {
-	Childkey   *bip32.Key // struct with the following fields: privatekey,chaincode,key,version,childNumber,depth,isPrivatekey(boolen value),fingerprint
-	Pubaddress string     //public address
+	Childkey    *bip32.Key // struct with the following fields: privatekey,chaincode,key,version,childNumber,depth,isPrivatekey(boolen value),fingerprint
+	Childpubkey *bip32.Key
+	Pubaddress  string //public address
 }
 
 /* Customerrors are generated using this structure.*/
@@ -38,7 +39,7 @@ func Generatewithpassphrase(passphrase string) (Key, string) {
 	childpub := childkey.PublicKey()
 	_, pubaddress := Pubkeyhash(childpub.Key)
 	//Return a private key structure and its corresponding public address
-	return Key{childkey, pubaddress}, mnemonic
+	return Key{childkey, childpub, pubaddress}, mnemonic
 }
 
 /* This function is used to implement customized errors and return error messages and codes. */
